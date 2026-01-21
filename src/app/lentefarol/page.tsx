@@ -10,9 +10,9 @@ type Lentefarol = {
   description: string;
   price: number;
   imageUrl: string;
-  imgUrl1?: string;
-  imgUrl2?: string;
-  imgUrl3?: string;
+  imgUrl1: string;
+  imgUrl2: string;
+  imgUrl3: string;
 };
 
 export default function ProdutosPage() {
@@ -84,7 +84,13 @@ export default function ProdutosPage() {
                 </Link>
 
                 <button
-                  onClick={() => addToCart(lentefarol)}
+                onClick={() =>
+                    addToCart({
+                      ...lentefarol,
+                      imgUrl1: lentefarol.imgUrl1 ?? "",
+                    })
+                  }
+                  //onClick={() => addToCart(lentefarol)}
                   className="bg-black hover:bg-gray-600 cursor-pointer text-white py-2 rounded-lg font-bold transition"
                 >
                   Adicionar ao Carrinho

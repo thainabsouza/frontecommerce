@@ -100,14 +100,16 @@ export default function SearchDropdown() {
               )}
 
               {filtered.map((p) => (
+                p.type && (
                 <Link
-                  key={`${p.id}`}
+                  key={`${p.type}-${p.id}`}
                   href={`/${p.type}/${p.id}`}
                   className="p-2 hover:bg-gray-100 cursor-pointer rounded text-sm block"
                   onClick={() => setOpen(false)}
                 >
                   {p.title}
                 </Link>
+                )
               ))}
             </ul>
           )}

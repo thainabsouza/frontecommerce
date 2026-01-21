@@ -10,9 +10,9 @@ type CarcacaFarol = {
   description: string;
   price: number;
   imageUrl: string;
-  imgUrl1?: string;
-  imgUrl2?: string;
-  imgUrl3?: string;
+  imgUrl1: string;
+  imgUrl2: string;
+  imgUrl3: string;
 };
 
 export default function ProdutosPage() {
@@ -84,7 +84,13 @@ export default function ProdutosPage() {
                 </Link>
 
                 <button
-                  onClick={() => addToCart(carcacaFarol)}
+                onClick={() =>
+                    addToCart({
+                      ...carcacaFarol,
+                      imgUrl1: carcacaFarol.imgUrl1 ?? "",
+                    })
+                  }
+                  //onClick={() => addToCart(carcacaFarol)}
                   className="bg-black cursor-pointer hover:bg-gray-600 text-white py-2 rounded-lg font-bold transition"
                 >
                   Adicionar ao Carrinho

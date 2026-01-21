@@ -10,9 +10,9 @@ type Lanterna = {
   description: string;
   price: number;
   imageUrl: string;
-  imgUrl1?: string;
-  imgUrl2?: string;
-  imgUrl3?: string;
+  imgUrl1: string;
+  imgUrl2: string;
+  imgUrl3: string;
 };
 
 export default function ProdutosPage() {
@@ -84,7 +84,13 @@ export default function ProdutosPage() {
                 </Link>
 
                 <button
-                  onClick={() => addToCart(lentelanterna)}
+                onClick={() =>
+                  addToCart({
+                    ...lentelanterna,
+                    imgUrl1: lentelanterna.imgUrl1 ?? "",
+                  })
+                }
+                  //onClick={() => addToCart(lentelanterna)}
                   className="bg-black hover:bg-gray-600 text-white py-2 rounded-lg font-bold transition"
                 >
                   Adicionar ao Carrinho

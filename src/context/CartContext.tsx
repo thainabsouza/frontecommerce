@@ -9,9 +9,9 @@ export type Product = {
   description: string;
   price: number;
   imageUrl: string;
-  imgUrl1: string;
-  imgUrl2: string;
-  imgUrl3: string;
+  imgUrl1?: string;
+  imgUrl2?: string;
+  imgUrl3?: string;
 };
 
 type CartContextType = {
