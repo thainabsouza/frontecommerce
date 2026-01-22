@@ -9,8 +9,9 @@ const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
-  title: "Euro Autoparts",
+  title: "Tech Car Autopecas",
   description: "O melhor lugar para o seu carro ficar perfeito",
+  
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
