@@ -13,13 +13,9 @@ export default function LabelCard() {
 
   useEffect(() => {
     async function fetchCards() {
-      try {
-        const res = await fetch("http://localhost:3001/slid-label-tool");
-        const data = await res.json();
-        setCards(data);
-      } catch (error) {
-        console.error("Erro ao buscar cards:", error);
-      }
+      const res = await fetch("http://localhost:3001/slid-label-tool");
+      const data = await res.json();
+      setCards(data);
     }
 
     fetchCards();
@@ -28,18 +24,35 @@ export default function LabelCard() {
   const duplicated = [...cards, ...cards];
 
   return (
-    <div className="hidden md:block w-full overflow-hidden py-2 min-h-[200px]">
-  <div className="flex items-center animate-marquee whitespace-nowrap h-[200px]">
-    {duplicated.map((card, index) => (
-      <div key={index} className="flex items-center mx-3">
-        <img
-          src={card.imageUrl}
-          alt={card.title}
-           className="object-fill lg:h-[50] lg:w-[50] md:h-[50] md:w-[50]"
-        />
+    <>
+      <div className="w-full overflow-hidden py-4">
+        <div className="flex items-center gap-10 whitespace-nowrap animate-marquee">
+          {duplicated.map((card, index) => (
+            <img
+              key={index}
+              src={card.imageUrl}
+              alt={card.title}
+              className="h-18 w-30 object-contain"
+            />
+          ))}
+        </div>
       </div>
-    ))}
-  </div>
-</div>
+
+      {/* CSS GLOBAL */}
+      <style jsx global>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-marquee {
+          animation: marquee 25s linear infinite;
+        }
+      `}</style>
+    </>
   );
 }
