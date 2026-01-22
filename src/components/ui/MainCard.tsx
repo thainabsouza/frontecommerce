@@ -77,7 +77,7 @@ export default function MainCardSlider() {
       {canScrollLeft && (
         <button
           onClick={scrollLeft}
-          className="absolute left-0 cursor-pointer top-1/2 -translate-y-1/2 bg-white shadow rounded-full p-2 z-10 hover:bg-gray-100"
+          className="absolute text-black left-0 cursor-pointer top-1/2 -translate-y-1/2 bg-white shadow rounded-full p-2 z-10 hover:bg-gray-100"
         >
           <ArrowLeft size={20} />
         </button>
@@ -113,7 +113,7 @@ export default function MainCardSlider() {
       {canScrollRight && (
         <button
           onClick={scrollRight}
-          className="absolute right-0 cursor-pointer top-1/2 -translate-y-1/2 bg-white shadow rounded-full p-2 z-10 hover:bg-gray-100"
+          className="absolute text-black right-0 cursor-pointer top-1/2 -translate-y-1/2 bg-white shadow rounded-full p-2 z-10 hover:bg-gray-100"
         >
           <ArrowRight size={20} />
         </button>
