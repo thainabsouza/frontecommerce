@@ -1,39 +1,39 @@
-// src/app/produtos/[id]/page.tsx
-'use client';
-import { useEffect, useState } from 'react';
-import ProdutoClient from './lentefarol';
-import { Product } from '@/context/CartContext';
-import CartProviderWrapper from '@/app/CartProviderWrapper';
+// src/app/lanternas/[id]/page.tsx
 
-type Props = { params: { id: string } };
+import ProdutoClient from "./LenteFarol";
 
-export default function ProdutoPage({ params }: Props) {
-  const [lentefarol, setLentefarol] = useState<Product| null>(null);
-  const [loading, setLoading] = useState(true);
+type Props = {
+  params: Promise<{
+    id: string;
+  }>;
+};
 
-  useEffect(() => {
-    async function fetchProduct() {
-      try {
-        const res = await fetch(`http://localhost:3001/lentefarol/${params.id}`);
-        if (res.ok) {
-          const data = await res.json();
-          setLentefarol(data);
-        } else {
-          console.error('Erro ao buscar produto:', res.status);
-        }
-      } catch (err) {
-        console.error('Erro no fetch:', err);
-      } finally {
-        setLoading(false);
-      }
+export default async function ProdutoPage({ params }: Props) {
+  const { id } = await params;
+
+  try {
+    const res = await fetch(`http://localhost:3001/lenteFarol/${id}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      return (
+        <div className="text-center text-gray-600 py-10">
+          Produto não encontrado 😢
+        </div>
+      );
     }
-    fetchProduct();
-  }, [params.id]);
 
-  if (loading) {
-    return <div className="text-center text-gray-600 py-10">Carregando produto...</div>;
+    const produto = await res.json();
+
+    return <ProdutoClient product={produto} />;
+  } catch (error) {
+    console.error("Erro buscando produto:", error);
+
+    return (
+      <div className="text-center text-gray-600 py-10">
+        Erro ao carregar produto.
+      </div>
+    );
   }
-
-  // 👇 Aqui, garantimos o Provider mesmo se o global falhar
-  return <ProdutoClient product={lentefarol} />
 }

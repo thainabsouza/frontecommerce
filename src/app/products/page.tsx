@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
@@ -16,10 +16,33 @@ export default function ProdutosPage() {
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
+  /*useEffect(() => {
+    async function fetchProdutos() {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/products`
+        );
+
+        if (!res.ok) {
+          throw new Error(`Erro ${res.status}`);
+        }
+
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error("Erro ao buscar produtos:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProdutos();
+  }, []);*/
+
   useEffect(() => {
     async function fetchProdutos() {
       try {
-        const res = await fetch("http://localhost:3001/products");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
         if (res.ok) {
           const data = await res.json();
           setProducts(data);
@@ -36,7 +59,8 @@ export default function ProdutosPage() {
     fetchProdutos();
   }, []);
 
-  if (loading) return <div className="text-center py-10">Carregando produtos...</div>;
+  if (loading)
+    return <div className="text-center py-10">Carregando produtos...</div>;
 
   return (
     <main className="max-w-7xl  mt-20 mx-auto p-8 bg-gray-50 min-h-screen">

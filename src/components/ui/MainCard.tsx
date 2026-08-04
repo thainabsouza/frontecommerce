@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
@@ -11,10 +11,10 @@ export interface MenuCard {
 }
 
 const routeMap: Record<string, string> = {
-  "Farol": "/products",
-  "Lanterna": "/lanternas",
+  Farol: "/products",
+  Lanterna: "/lanternas",
   "Lente de Lanterna": "/lentelanterna",
-  "Lente de Farol": "/lentefarol",
+  "Lente de Farol": "/LenteFarol",
   "Carcaça de Farol": "/carcacafarol",
 };
 
@@ -27,7 +27,9 @@ export default function MainCardSlider() {
   useEffect(() => {
     async function fetchCards() {
       try {
-        const res = await fetch("http://localhost:3001/menu-cards");
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/menu-cards`,
+        );
         const data = await res.json();
         setCards(data);
       } catch (error) {
@@ -91,7 +93,7 @@ export default function MainCardSlider() {
         {cards.map((card) => (
           <Link
             key={card.id}
-            href={routeMap[card.title] || "/"} 
+            href={routeMap[card.title] || "/"}
             className="flex-shrink-0 h-140 w-95 aspect-[4/3] relative rounded-xl shadow overflow-hidden hover:scale-105 transition-transform"
             style={{ aspectRatio: "4/3" }}
           >

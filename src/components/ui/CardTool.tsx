@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
@@ -11,11 +11,11 @@ export interface CardTool {
 }
 
 const routeMap: Record<string, string> = {
-  "farol": "/products",
-  "lanterna": "/lanternas",
+  farol: "/products",
+  lanterna: "/lanternas",
   "lente de lanterna": "/lentelanterna",
-  "lente de farol": "/lentefarol",
-  "Carcaça": "/carcacafarol",
+  "lente de farol": "/LenteFarol",
+  Carcaça: "/carcacafarol",
 };
 
 export default function ToolCardSlider() {
@@ -27,7 +27,9 @@ export default function ToolCardSlider() {
   useEffect(() => {
     async function fetchCards() {
       try {
-        const res = await fetch("http://localhost:3001/menu-tools-button");
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/menu-tools-button`,
+        );
         const data = await res.json();
         setCards(data);
       } catch (error) {
@@ -72,7 +74,6 @@ export default function ToolCardSlider() {
 
   return (
     <div className="relative py-4">
-
       {canScrollLeft && (
         <button
           onClick={scrollLeft}

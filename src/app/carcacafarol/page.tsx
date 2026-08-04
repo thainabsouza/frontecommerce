@@ -1,8 +1,7 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
-
 
 type CarcacaFarol = {
   id: number;
@@ -20,13 +19,14 @@ export default function ProdutosPage() {
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
-
-//const res = await fetch("http://localhost:3001/CarcacaFarol");
+  //const res = await fetch("http://localhost:3001/CarcacaFarol");
 
   useEffect(() => {
-  async function fetchProdutos() {
-    try {
-        const res = await fetch("http://localhost:3001/carcacafarol");
+    async function fetchProdutos() {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}carcacafarol`,
+        );
         if (res.ok) {
           const data = await res.json();
           setCarcacaFarol(data);
@@ -40,10 +40,11 @@ export default function ProdutosPage() {
       }
     }
 
-  fetchProdutos();
-}, []);
+    fetchProdutos();
+  }, []);
 
-  if (loading) return <div className="text-center py-10">Carregando produtos...</div>;
+  if (loading)
+    return <div className="text-center py-10">Carregando produtos...</div>;
 
   return (
     <main className="max-w-7xl  mt-20 mx-auto p-8 bg-gray-50 min-h-screen">
@@ -84,7 +85,7 @@ export default function ProdutosPage() {
                 </Link>
 
                 <button
-                onClick={() =>
+                  onClick={() =>
                     addToCart({
                       ...carcacaFarol,
                       imgUrl1: carcacaFarol.imgUrl1 ?? "",

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { Search } from "lucide-react";
-import Link from "next/link"
+import Link from "next/link";
 
 interface Product {
   id: number;
@@ -23,9 +23,9 @@ export default function SearchDropdown() {
       const endpoints = [
         "carcacafarol",
         "lanternas",
-        "lentefarol",
+        "LenteFarol",
         "lentelanterna",
-        "products"
+        "products",
       ];
 
       const all = await Promise.all(
@@ -46,7 +46,7 @@ export default function SearchDropdown() {
           } catch {
             return []; // evita quebrar se uma rota estiver offline
           }
-        })
+        }),
       );
 
       setProducts(all.flat());
@@ -58,7 +58,7 @@ export default function SearchDropdown() {
   // 🔹 Filtrar
   useEffect(() => {
     const result = products.filter((p) =>
-      p.title.toLowerCase().includes(query.toLowerCase())
+      p.title.toLowerCase().includes(query.toLowerCase()),
     );
     setFiltered(result);
   }, [query, products]);
@@ -66,7 +66,10 @@ export default function SearchDropdown() {
   // 🔹 Fechar ao clicar fora
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpen(false);
       }
     }
@@ -75,7 +78,10 @@ export default function SearchDropdown() {
   }, []);
 
   return (
-    <div className="relative flex items-center cursor-pointer" ref={dropdownRef}>
+    <div
+      className="relative flex items-center cursor-pointer"
+      ref={dropdownRef}
+    >
       <button
         onClick={() => setOpen(!open)}
         className="p-2 rounded-full hover:bg-gray-200 transition"
@@ -96,21 +102,24 @@ export default function SearchDropdown() {
           {query.length > 0 && (
             <ul className=" relative mt-2 max-h-60 overflow-y-auto">
               {filtered.length === 0 && (
-                <li className="p-2 text-gray-500 text-sm">Nenhum produto encontrado</li>
+                <li className="p-2 text-gray-500 text-sm">
+                  Nenhum produto encontrado
+                </li>
               )}
 
-              {filtered.map((p) => (
-                p.type && (
-                <Link
-                  key={`${p.type}-${p.id}`}
-                  href={`/${p.type}/${p.id}`}
-                  className="p-2 hover:bg-gray-100 cursor-pointer rounded text-sm block"
-                  onClick={() => setOpen(false)}
-                >
-                  {p.title}
-                </Link>
-                )
-              ))}
+              {filtered.map(
+                (p) =>
+                  p.type && (
+                    <Link
+                      key={`${p.type}-${p.id}`}
+                      href={`/${p.type}/${p.id}`}
+                      className="p-2 hover:bg-gray-100 cursor-pointer rounded text-sm block"
+                      onClick={() => setOpen(false)}
+                    >
+                      {p.title}
+                    </Link>
+                  ),
+              )}
             </ul>
           )}
         </div>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 
@@ -13,7 +13,9 @@ export default function LabelCard() {
 
   useEffect(() => {
     async function fetchCards() {
-      const res = await fetch("http://localhost:3001/slid-label-tool");
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/slid-label-tool`,
+      );
       const data = await res.json();
       setCards(data);
     }

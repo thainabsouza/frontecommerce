@@ -1,8 +1,7 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
-
 
 type Lanterna = {
   id: number;
@@ -20,13 +19,35 @@ export default function ProdutosPage() {
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
+  //const res = await fetch("http://localhost:3001/lanternas");
 
-//const res = await fetch("http://localhost:3001/lanternas");
+  /*useEffect(() => {
+    async function fetchProdutos() {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/lanternas`
+        );
+
+        if (!res.ok) {
+          throw new Error(`Erro ${res.status}`);
+        }
+
+        const data = await res.json();
+        setLanterna(data);
+      } catch (err) {
+        console.error("Erro ao buscar produtos:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProdutos();
+  }, []);*/
 
   useEffect(() => {
-  async function fetchProdutos() {
-    try {
-        const res = await fetch("http://localhost:3001/lanternas");
+    async function fetchProdutos() {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lanternas`);
         if (res.ok) {
           const data = await res.json();
           setLanterna(data);
@@ -40,10 +61,11 @@ export default function ProdutosPage() {
       }
     }
 
-  fetchProdutos();
-}, []);
+    fetchProdutos();
+  }, []);
 
-  if (loading) return <div className="text-center py-10">Carregando produtos...</div>;
+  if (loading)
+    return <div className="text-center py-10">Carregando produtos...</div>;
 
   return (
     <main className="max-w-7xl  mt-20 mx-auto p-8 bg-gray-50 min-h-screen">
@@ -84,13 +106,13 @@ export default function ProdutosPage() {
                 </Link>
 
                 <button
-                onClick={() =>
-                addToCart({
-                ...lanterna,
-                imgUrl1: lanterna.imgUrl1 ?? "",
-                  })
-                }
-                 // onClick={() => addToCart(lanterna)}
+                  onClick={() =>
+                    addToCart({
+                      ...lanterna,
+                      imgUrl1: lanterna.imgUrl1 ?? "",
+                    })
+                  }
+                  // onClick={() => addToCart(lanterna)}
                   className="bg-black cursor-pointer hover:bg-gray-600 text-white py-2 rounded-lg font-bold transition"
                 >
                   Adicionar ao Carrinho

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState, useEffect } from "react";
 import { useCart } from "@/context/CartContext";
 import { CreditCard, QrCode, X } from "lucide-react";
@@ -9,8 +9,10 @@ export default function CarrinhoPage() {
   const [qrCode, setQrCode] = useState<string | null>(null);
 
   const [showForm, setShowForm] = useState(false);
-  const [email, setEmail] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'pix' | 'credit_card'>('pix');
+  const [email, setEmail] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<"pix" | "credit_card">(
+    "pix",
+  );
   const [loading, setLoading] = useState(false);
 
   const [total, setTotal] = useState(0);
@@ -25,86 +27,92 @@ export default function CarrinhoPage() {
 
   const handlePixPayment = async () => {
     try {
-      const res = await fetch("http://localhost:3001/payments/pix", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          total,
-          description: "Compra Euro Autoparts"
-        })
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/payments/pix`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            total,
+            description: "Compra Euro Autoparts",
+          }),
+        },
+      );
 
-      if (!res.ok) throw new Error('Erro ao gerar QR Code');
+      if (!res.ok) throw new Error("Erro ao gerar QR Code");
 
       const data = await res.json();
       setQrCode(`data:image/png;base64,${data.qr_code_base64}`);
       setShowPix(true);
     } catch (err) {
       console.error(err);
-      alert('Erro ao gerar pagamento Pix.');
+      alert("Erro ao gerar pagamento Pix.");
     }
   };
 
   const handleMercadoPago = async () => {
-  try {
-    const res = await fetch("http://localhost:3001/payments/mercadopago", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        items: cart.map(p => ({
-          title: p.title,
-          quantity: 1,
-          unit_price: p.price
-        })),
-        total
-      })
-    });
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}payments/mercadopago`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            items: cart.map((p) => ({
+              title: p.title,
+              quantity: 1,
+              unit_price: p.price,
+            })),
+            total,
+          }),
+        },
+      );
 
-    if (!res.ok) throw new Error("Erro ao iniciar pagamento.");
+      if (!res.ok) throw new Error("Erro ao iniciar pagamento.");
 
-    const data = await res.json();
+      const data = await res.json();
 
-    // redireciona para o checkout do Mercado Pago
-    window.location.href = data.init_point;
-
-  } catch (err) {
-    console.error(err);
-    alert("Erro ao iniciar pagamento Mercado Pago.");
-  }
-};
+      // redireciona para o checkout do Mercado Pago
+      window.location.href = data.init_point;
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao iniciar pagamento Mercado Pago.");
+    }
+  };
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:3001/orders', { // rota plural corrigida
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+        // rota plural corrigida
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          items: cart.map(p => ({
+          items: cart.map((p) => ({
             id: Number(p.id), // garante que seja número
             title: p.title,
-            price: p.price
+            price: p.price,
           })),
           total,
           paymentMethod,
-          paymentStatus: 'pending',
+          paymentStatus: "pending",
         }),
       });
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        console.error('Erro ao criar pedido:', errorData);
-        alert('Erro ao criar pedido.');
+        console.error("Erro ao criar pedido:", errorData);
+        alert("Erro ao criar pedido.");
       } else {
         setShowForm(false);
-        alert('Pedido criado com sucesso!');
+        alert("Pedido criado com sucesso!");
       }
     } catch (err) {
       console.error(err);
-      alert('Erro ao criar pedido.');
+      alert("Erro ao criar pedido.");
     }
 
     setLoading(false);
@@ -126,12 +134,21 @@ export default function CarrinhoPage() {
       {/* Lista de produtos */}
       <ul className="space-y-4">
         {cart.map((product) => (
-          <li key={product.id} className="flex items-center justify-between bg-white p-4 rounded-lg shadow">
+          <li
+            key={product.id}
+            className="flex items-center justify-between bg-white p-4 rounded-lg shadow"
+          >
             <div className="flex items-center gap-4">
-              <img src={product.imageUrl} alt={product.title} className="w-20 h-20 object-cover rounded" />
+              <img
+                src={product.imageUrl}
+                alt={product.title}
+                className="w-20 h-20 object-cover rounded"
+              />
               <div>
                 <h2 className="font-semibold">{product.title}</h2>
-                <p className="text-green-600 font-semibold">R$ {product.price.toFixed(2)}</p>
+                <p className="text-green-600 font-semibold">
+                  R$ {product.price.toFixed(2)}
+                </p>
               </div>
             </div>
           </li>
@@ -182,7 +199,9 @@ export default function CarrinhoPage() {
               <p>Gerando QR Code...</p>
             )}
             <p className="mt-2 text-gray-600 text-sm">{pixMessage}</p>
-            <p className="text-gray-500 text-xs mt-2">Chave Pix: <strong>{pixKey}</strong></p>
+            <p className="text-gray-500 text-xs mt-2">
+              Chave Pix: <strong>{pixKey}</strong>
+            </p>
           </div>
         </div>
       )}
@@ -198,10 +217,7 @@ export default function CarrinhoPage() {
               <X className="w-5 h-5" />
             </button>
             <h2 className="text-xl font-semibold mb-4">Finalize seu pedido</h2>
-            <form
-              onSubmit={handleSubmitOrder}
-              className="flex flex-col gap-4"
-            >
+            <form onSubmit={handleSubmitOrder} className="flex flex-col gap-4">
               <label className="flex flex-col text-sm">
                 Email
                 <input
@@ -218,8 +234,8 @@ export default function CarrinhoPage() {
                   type="radio"
                   name="paymentMethod"
                   value="pix"
-                  checked={paymentMethod === 'pix'}
-                  onChange={() => setPaymentMethod('pix')}
+                  checked={paymentMethod === "pix"}
+                  onChange={() => setPaymentMethod("pix")}
                 />
                 Pix
               </label>
@@ -228,13 +244,13 @@ export default function CarrinhoPage() {
                   type="radio"
                   name="paymentMethod"
                   value="credit_card"
-                  checked={paymentMethod === 'credit_card'}
-                  onChange={() => setPaymentMethod('credit_card')}
+                  checked={paymentMethod === "credit_card"}
+                  onChange={() => setPaymentMethod("credit_card")}
                 />
                 Cartão de Crédito
               </label>
 
-                <button
+              <button
                 onClick={handleMercadoPago}
                 className="flex items-center gap-2 hover:text-blue-600 transition cursor-pointer"
               >
@@ -256,7 +272,7 @@ export default function CarrinhoPage() {
                 className="bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
                 disabled={loading}
               >
-                {loading ? 'Enviando...' : 'Finalizar Pedido'}
+                {loading ? "Enviando..." : "Finalizar Pedido"}
               </button>
             </form>
           </div>
