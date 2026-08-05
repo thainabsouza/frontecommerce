@@ -19,13 +19,13 @@ export default function ProdutosPage() {
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
-  //const res = await fetch("http://localhost:3001/CarcacaFarol");
+  //const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/CarcacaFarol");
 
   useEffect(() => {
     async function fetchProdutos() {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}carcacafarol`,
+          `${process.env.NEXT_PUBLIC_API_URL}/carcacafarol`,
         );
         if (res.ok) {
           const data = await res.json();

@@ -12,9 +12,12 @@ export default async function ProdutoPage({ params }: Props) {
   const { id } = await params;
 
   try {
-    const res = await fetch(`http://localhost:3001/carcacaFarol/${id}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/carcacaFarol/${id}`,
+      {
+        cache: "no-store",
+      },
+    );
 
     if (!res.ok) {
       return (

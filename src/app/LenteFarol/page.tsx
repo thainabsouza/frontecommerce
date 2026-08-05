@@ -19,7 +19,7 @@ export default function ProdutosPage() {
   const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
 
-  //const res = await fetch("http://localhost:3001/lanternas");
+  //const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/lanternas");
 
   /* useEffect(() => {
     async function fetchProdutos() {

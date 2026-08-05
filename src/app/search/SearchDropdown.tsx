@@ -31,7 +31,7 @@ export default function SearchDropdown() {
       const all = await Promise.all(
         endpoints.map(async (ep) => {
           try {
-            const res = await fetch(`http://localhost:3001/${ep}`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${ep}`);
 
             if (!res.ok) return []; // ignora erros
 
