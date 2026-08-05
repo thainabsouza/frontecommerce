@@ -23,7 +23,7 @@ export default function SearchDropdown() {
       const endpoints = [
         "carcacafarol",
         "lanternas",
-        "LenteFarol",
+        "lentefarol",
         "lentelanterna",
         "products",
       ];

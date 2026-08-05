@@ -19,7 +19,7 @@ export function Menu() {
       <Link className="font-semibold hover:text-gray-100" href="/lentelanterna">
         Lentes de Lanterna
       </Link>
-      <Link className="font-semibold hover:text-gray-100" href="/LenteFarol">
+      <Link className="font-semibold hover:text-gray-100" href="/lentefarol">
         Lentes de Farol
       </Link>
       <Link className="font-semibold hover:text-gray-100" href="/carcacafarol">

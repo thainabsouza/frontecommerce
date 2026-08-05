@@ -14,7 +14,7 @@ const routeMap: Record<string, string> = {
   farol: "/products",
   lanterna: "/lanternas",
   "lente de lanterna": "/lentelanterna",
-  "lente de farol": "/LenteFarol",
+  "lente de farol": "/lentefarol",
   Carcaça: "/carcacafarol",
 };
 

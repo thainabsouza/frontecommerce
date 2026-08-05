@@ -1,6 +1,6 @@
 // src/app/lanternas/[id]/page.tsx
 
-import ProdutoClient from "./LenteFarol";
+import ProdutoClient from "./lentefarol";
 
 type Props = {
   params: Promise<{
@@ -13,7 +13,7 @@ export default async function ProdutoPage({ params }: Props) {
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/lenteFarol/${id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/lentefarol/${id}`,
       {
         cache: "no-store",
       },
